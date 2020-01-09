@@ -4,7 +4,7 @@
    <meta charset="UTF-8">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-   <title>Coding Quiz</title>
+   <title>Hishscores</title>
    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
    <link rel="stylesheet" href="assets/css/style.css"/>
    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -29,26 +29,12 @@
          </div>
       </nav>
       <div class="jumbotron" id="homepage">
-         <h1 class="display-4">Welcome to the coding quiz!</h1>
-         <p class="lead">You'll have 75 seconds to answer 15 questions.</p>
+         <h1 class="display-4">Leaderboard</h1>
+         <p class="lead"></p>
          <hr class="my-4">
-         <p>Press start to begin</p>
-         <a class="btn btn-primary btn-lg" role="button" id="start-btn">Start</a>
+         <p></p>
       </div>
-      <div class="quiz" id="quiz">
-         <h2 id="questionDisplay"> <!-- where question is appended --> </h2>
-         <ul id="optionDisplay"> <!-- where answer options are appended --> </ul>
-      </div>
-
-      <!--User inputs score-->
-      <form id="score-keeper">
-         <div class="form-group">
-            <label for="exampleInputEmail1">Enter Your Name</label>
-            <input type="text" class="form-control" id="inputUsername">
-         </div>
-         <button type="submit" class="btn btn-primary">Submit</button>
-      </form>
    </div>
-   <script src="assets/javascript/script.js"></script>
+   <script src="score.js"></script>
 </body>
 </html>
