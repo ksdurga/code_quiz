@@ -172,9 +172,9 @@ $(document).ready(function() {
    var highScores = [];
    var currentQuestion = $("<p>");
    var currentAnswers = $("#optionDisplay");
-   var enterScore = $
+   var enterScore;
    let currentQuestionIndex;
-
+   var nextBtn = $("#next");
    
 //   function displayQuestion(num) {
    
@@ -219,28 +219,56 @@ $(document).ready(function() {
      startGame();
    //   nextQuestion();
      timer();
-     setNextQuestion();
+     showQuestion(questionCount);
    });
 
    function endGame() {
       $("#score-keeper").show();
       
-   }
+   };
 
-   function setNextQuestion() {
-      // resetState();
-      console.log("next question");
-      showQuestion();
-   }
-
-   function showQuestion () {
-      for (i=0; i<quizArr.length; i++) {
-         currentQuestion=quizArr[i].question;
-         console.log(quizArr[i].question);
-         $("#quiz").attr({display: "inline-block"});
-         $("#questionDisplay").append(currentQuestion);
+   $("#optionDisplay").click(function(event) {
+      var clickedIndex = parseInt($(event.target).attr("tabindex"));
+      if (
+        questions[questionCount].choices[clickedIndex] ==
+        questions[questionCount].answer
+      ) {
+        console.log("Correct");
+        questionCount++;
+        currentScore += 10;
+        clearQuestions();
+        if (questionCount < questions.length) {
+          displayQuestion(questionCount);
+        } else {
+          gameOver();
+        }
+      }
+   });
+   //Displays all questions
+   function showQuestion (num) {
+      $("#questionDisplay").text(quizArr[num].question);
+      for (i=0; i<quizArr[num].question.length; i++) {
+         $("#questionOptions").append(
+            "<li class='list-inline-item border-0 mb-lg-n2'><a class='choice btn btn-primary' tabindex=" +
+            i +
+            ">" +
+            quizArr.questions[num].answers[i]
+         );
       }
    };
+
+   // function displayQuestion(num) {
+   //    $("#questionHead").text(questions[num].title);
+    
+   //    for (var j = 0; j < questions[num].choices.length; j++) {
+   //      $("#questionOptions").append(
+   //        "<li class='list-inline-item border-0 mb-lg-n2'><a class='choice btn btn-primary' tabindex=" +
+   //          j +
+   //          ">" +
+   //          questions[num].choices[j]
+   //      );
+   //    }
+   //  }
    
    
    // function nextQuestion(question) {
@@ -271,23 +299,6 @@ $(document).ready(function() {
   
 
    
- // Loop over every question object
-//  for (var i = 0; i < questions.length; i++) {
-//    // Display current question to user and ask OK/Cancel
-//    var answer = confirm(questions[i].q);
-
-//    // Compare answers
-//    if ((answer === true && questions[i].a === "t") ||
-//      (answer === false && questions[i].a === "f")) {
-//      // Increase score
-//      score++;
-//      alert("Correct!");
-//    }
-//    else {
-//      alert("Wrong!");
-//    }
-//  }
-   
  
 
    function timer() {
@@ -309,5 +320,47 @@ $(document).ready(function() {
       }
       
    };
+
+   nextBtn.on("click", function(e){
+      change_question();
+   }) 
+   var question_container = $('<div>').attr('id', 'question').insertAfter('#quiz');
+  
+   // Helper function for changing the question and updating the buttons
+   function change_question() {
+      for (i=0; i<quizArr.length; i++) {
+         currentQuestion=quizArr[i].question;
+         console.log(quizArr[i].question);
+         $("#quiz").attr({display: "inline-block"});
+         $("#questionDisplay").append(currentQuestion);
+         questionCount=quizArr.indexOf(quizArr[i].question);
+         console.log(questionCount);
+      }
+   //   quizArr.indexOf(question).write(question_container);
+     $('#prev-question-button').prop('disabled', quizArr.indexOf(question) === 0);
+     $('#next-question-button').prop('disabled', quizArr.indexOf(question) === quizArr.length - 1);
+    
+     
+     // Determine if all questions have been answered
+   //   var all_questions_answered = true;
+   //   for (var i = 0; i < quizArr.length; i++) {
+   //     if (quizArr.questions[i].answers === null) {
+   //       all_questions_answered = false;
+   //       break;
+   //     }
+   //   }
+   //   $('#submit-button').prop('disabled', !all_questions_answered);
+   }
+
+
+
+
+   
+
+
+
+
+
+
 
 });
