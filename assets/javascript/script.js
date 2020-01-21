@@ -189,8 +189,13 @@ $(document).ready(function() {
    var nextBtn = $("#next");
    var questionDislpay = $("#questionDisplay");
    var optionDisplay = $("#options");
-   
+   var submitBtn = $("#submit");
+   var bonusPoints = 0;
 
+   var users;
+   var scores;
+   var allUsers = [];
+   var allScores = [];
    nextBtn.hide();
    $("#score-keeper").hide();
 
@@ -256,6 +261,15 @@ $(document).ready(function() {
       });
    };
 
+
+   function endGame() {
+      nextBtn.hide();
+      questionDislpay.hide();
+      optionDisplay.hide();
+      $("#score-keeper").show();
+   };
+
+
    // Iniitializes Quiz
    startBtn.on("click", function(e) {
       e.preventDefault();
@@ -268,49 +282,18 @@ $(document).ready(function() {
 
    nextBtn.on("click", function(e){
       e.preventDefault();
-      questionDisplay.innerHTML = "";
       questionCount++;
-      showQuestion();
-      displayOptions();
+      if (questionCount == 15) {
+         bonusPoints += secondsLeft;
+         console.log(bonusPoints);
+         endGame();
+      }
+      else {
+         questionDisplay.innerHTML = "";
+         showQuestion();
+         displayOptions();
+      };
    });
-
-   function endGame() {
-      $("#score-keeper").show();
-   };
-   
-
-   
-
-   // optionDisplay.click(function(event) {
-   //    var clickedIndex = parseInt($(event.target).attr("tabindex"));
-   //    if (
-   //      questions[questionCount].choices[clickedIndex] ==
-   //      questions[questionCount].answer
-   //    ) {
-   //      console.log("Correct");
-   //      questionCount++;
-   //      currentScore += 10;
-   //      clearQuestions();
-   //      if (questionCount < questions.length) {
-   //        displayQuestion(questionCount);
-   //      } else {
-   //        gameOver();
-   //      }
-   //    }
-   // });
-
-  
-
-//    function displayQuestion(){
-//       //Clear out current display
-//       quest_dsply.innerHTML = "";
-//       //Add current Question to DOM
-//       var question = document.createElement("H3");
-//       question.textContent = questions[current].title;
-//       quest_dsply.appendChild(question);
-//       // Add current question's options to DOM via function call
-//       itterateQuestions();
-//   }
 
    
    function timer() {
@@ -322,39 +305,102 @@ $(document).ready(function() {
             clearInterval(timer);
             endGame();
             time.text("Time: " + 0);
+         };
+         if (questionCount == 15) {
+            clearInterval(timer);
+            time.text("Time: " + 0);
          }
       }, 1000);
+      
       setInterval(secondsLeft);
-      if(secondsLeft <= 0) {
-         clearInterval(timer);
-         endGame();
-         time.text("Time: " + 0);
-      }
       
    };
 
 
-     
-     // Determine if all questions have been answered
-   //   var all_questions_answered = true;
-   //   for (var i = 0; i < quizArr.length; i++) {
-   //     if (quizArr.questions[i].answers === null) {
-   //       all_questions_answered = false;
-   //       break;
-   //     }
-   //   }
-   //   $('#submit-button').prop('disabled', !all_questions_answered);
+   submitBtn.on("click", function(e){
+      window.location ="highscores.html";
+      e.preventDefault();
+      init = document.getElementById("inputUser").value;
+      console.log(init);
+      score = currentScore + bonusPoints;
+      console.log(score);
+      saveScore();
+   });
+
+
+   function saveScore () {
+      localStorage.setItem(init, score);
+   }
+   var userScores;
    
+   function display() {
+      for (var i = 0; i < localStorage.length; i++) {
+         users = localStorage.key(i);
+         scores = localStorage.getItem(users);
+         allScores.push(scores);
+        
+         allUsers.push(users);
+         var userlistitem = $("<li>");
+         userlistitem.attr("class", "score-list");
+         userlistitem.attr("data-id", scores);
+         userlistitem.attr("data-position", scores);
+         userlistitem.text(users);
+         userlistitem.sort(sort_li);
+         $(".users").append(userlistitem).sort(sort_li).appendTo(".users");
+         console.log(userlistitem.data('position'))
+
+         var scorelistitem = $("<li>");
+         scorelistitem.attr("class", "score-list");
+         scorelistitem.attr("data-id", scores);
+         scorelistitem.attr("data-position", scores)
+         scorelistitem.text(scores);
+         scorelistitem.sort(sort_li);
+         $(".scores").append(scorelistitem).sort(sort_li).appendTo(".scores");
+          
+        }
+         
+    
+      };
+      
+      
+      function sort_li(a, b){
+      //    // a = userlistitem.data('position')
+         return ($(a).data('position')) > ($(b).data('position')) ? -1 : 1;   
+      
+         // console.log(userScores[i]);
+            // .getAttribute("data-id"));
+
+      //    alluserscores = userScores[i].getAttribute("data-id");
+      
+   };
 
 
 
+   display();
+      
 
+  
+  
    
+   
+   function display_highscore(event){
+    
 
-
-
-
-
-
+      //set all containers to display nothing
+      questionDisplay.textContent = "";
+      optionDisplay.innerHTML = "";
+      timeDisplay.textContent = "";
+      //Set Time to highscore title
+      timeDisplay.textContent = "HighScore";
+  
+      //Get locally stored score
+      var scoreSheet = JSON.parse(localStorage.getItem("currentHighScore"));
+      var name = scoreSheet.name;
+      var score = scoreSheet.score;
+      
+      quest_dsply.innerHTML = "<h4> Name: "+name+"</h4>"+"<h4> Score: "+score+"</h4>";
+  
+      //add button to launch game from
+  };
 
 });
