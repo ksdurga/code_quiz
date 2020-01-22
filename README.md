@@ -8,8 +8,8 @@ The quiz includes 15 multiple choice questions.  Upon user selection of the star
 
 ## Images of application
 
-![alt text](https://github.com/ksdurga/homework_apis/blob/master/assets/scrn_sht/inital.PNG)
+![alt text](https://github.com/ksdurga/homework_apis/blob/master/assets/images/homepage.PNG)
 
-![alt text](https://github.com/ksdurga/homework_apis/blob/master/assets/scrn_sht/inital.PNG)
+![alt text](https://github.com/ksdurga/homework_apis/blob/master/assets/scrn_sht/screenshot.PNG)
 
-![alt text](https://github.com/ksdurga/homework_apis/blob/master/assets/scrn_sht/inital.PNG)
+![alt text](https://github.com/ksdurga/homework_apis/blob/master/assets/scrn_sht/leaderboard.PNG)
